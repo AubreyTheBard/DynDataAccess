@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1518051841 source:u:\bj\rpg2003\project\dyndataaccess\dynplugins\dyndataaccess\dyndataaccess.cpp
+	<DynRPG/DynRPG.h>
+	<sstream>
+	<iostream>
+
