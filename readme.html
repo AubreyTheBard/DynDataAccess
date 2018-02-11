@@ -1,0 +1,464 @@
+﻿<!DOCTYPE html>
+<html>
+
+    <head>
+        <!--
+            Instructional file for DynDataAccess plugin
+            Author: Bernard J. Badger, AKA Aubrey the Bard
+
+            Filename: readme.html
+        -->
+
+        <meta charset="UTF-8" />
+        <style type="text/css">
+            header, article, section, nav {
+               display: block;
+            }
+
+            examplecode
+            {
+                background-color: rgb(230, 230, 230);
+                color: green;
+            }
+        </style>
+        <title>DynDataAccess plugin readme</title>
+
+    </head>
+
+    <body>
+
+        <header>
+            <h2>Table of Contents</h2>
+            <nav>
+                <ul>
+                    <li><a href="#intro">Introduction</a></li>
+                    <li><a href="#setup">Installation and Setup</a></li>
+                    <li><a href="#config">Configuration Options</a></li>
+                    <li><a href="#comment_commands">Comment Commands</a></li>
+                    <li><a href="#how_to_contribute">How to Contribute</a></li>
+                    <li><a href="#source_code">DynDataAccess Source Code</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="#change_log">Change Log</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <section><a name="intro" />
+            <h2>Introduction</h2>
+            <p><i>"The heart of the discerning acquires knowledge, for the ears of the wise seek it
+            out."</i> - Proverbs 18:15
+            </p>
+            <p>
+            DynDataAccess is a plugin for the DynRPG project. If you've taken the time to download
+            this plugin then odds are you're already familiar with DynRPG and how to use it, but
+            just in case, you can find the main DynRPG website at
+            <a target="_blank" href="http://rewking.com/dynrpg/">http://rewking.com/dynrpg/</a>.
+            </p>
+            <p>
+            The DynDataAccess plugin allows access to data in <i>RPG Maker 2003</i> that is
+            ordinarily hidden from developers. It contains commands for copying internal data into
+            <i>RPG Maker 2003</i> variables, and sometimes the other way around.
+            </p>
+            <p>
+            DynDataAccess is a living project, intended to expand as needed. The task of creating
+            commands for every possible data access would be a very large one, and much of it would
+            likely go unused. Hence, I am leaving it to individual developers to add new commands
+            when they find they want to access new parts of <i>RPG Maker 2003</i>'s internal data.
+            See <a href="#how_to_contribute">How to Contribute</a> for more details.
+            </p>
+            <p>
+            A quick plug for the integrity and harmony of the <i>RPG Maker</i> community: please buy
+            the official English translation of <i>RPG Maker 2003</i>! Obviously I'm in no position
+            to shame anyone who has used the fan port of <i>RPG Maker 2003</i> up until now,
+            especially since as of this writing there is no DynRPG patch for the official <i>RPG
+            Maker 2003</i>. Still, now that the official version is available (and not that
+            expensive to boot), there's really no excuse not to purchase a license for at least
+            legitimization, even if you continue to make use of the fan port. The creator of DynRPG,
+            David "Cherry" Trapp, was instrumental in negotiating the creation and release of the
+            official English translation of <i>RPG Maker 2003</i>, and he continues to work on
+            improving it. Let's give the owners of the <i>RPG Maker</i> franchise some motivation to
+            continue working amicably with the modding community! You can purchase <i>RPG Maker
+            2003</i> at
+            <a target="_blank" href="https://www.rpgmakerweb.com/products/programs/rpg-maker-2003">RPG Maker Web</a>
+            or on <a target="_blank" href="http://store.steampowered.com/app/362870/">Steam</a>.
+            </p>
+        </section>
+
+        <section><a name="setup" />
+            <h2>Installation and Setup</h2>
+            <p>
+            To install DynDataAccess in an <i>RPG Maker 2003</i> project:
+            <ol>
+                <li>Make sure that your project is <a target="_blank" href="http://rewking.com/dynrpg/patch.html">patched with DynRPG</a></li>
+                <li>Copy the file DynDataAccess.dll from the DynPlugins folder of the DynDataAccess project to the DynPlugins folder of your project</li>
+            </ol>
+            </p>
+        </section>
+
+        <section><a name="config" />
+            <h2>Configuration Options</h2>
+            <p>
+            DynDataAccess does not have any configuration options. You do not need to modify your
+            project's DynRPG.ini file in order to use DynDataAccess.
+            </p>
+        </section>
+            
+        <section><a name="comment_commands" />
+            <h2>Comment Commands</h2>
+            <p>
+            Comment commands are the primary way for <i>RPG Maker 2003</i> scripting in-game to
+            communicate with DynRPG plugins. DynDataAccess is <i>entirely</i> about comment
+            commands, specifically ones which retrieve data for storage in <i>RPG Maker 2003</i>
+            variables and sometimes vice-versa. To make a comment command in <i>RPG Maker 2003</i>, use
+            the Insert Comment event command option in the scripting of an event and put the
+            appropriate text within the comment. Often, you will want to use variable values rather
+            than preset values as arguments. You can do this by using DynRPG's standard syntax for a
+            variable in a comment command, which is a V followed by the number of the variable you
+            wish to reference. For example,
+            </p>
+            <p>
+            <examplecode>@dyndataaccess_get_enemy_current_hp 5, V10</examplecode>
+            </p>
+            <p>
+            would use the value of the game's 10th variable as the second argument of the command.
+            </p>
+            
+            <!-->
+            ADD NEW COMMENT COMMAND SECTIONS BELOW. PLACE THEM IN RELATION TO OTHER COMMENT COMMAND
+            SECTIONS IN THE ORDER OF THE RELATED DYNRPG CLASSES AND VARIABLES AS LISTED AT
+            http://www.rewking.com/dynrpg/namespace_r_p_g.html
+            </!-->
+            
+            <!-->
+            This section related to class RPG::Monster
+            </!-->
+            <a name="enemy_commands" />
+            <h2>Enemy (AKA monster) data commands</h2>
+
+            <p>
+            <i>Contributed by Aubrey the Bard</i>
+            </p>
+            
+            <a name="get_enemy_database_id" />
+            <h3>@dyndataaccess_get_enemy_database_id &ltvariable number&gt, &ltenemy number&gt</h3>
+            <p>
+            Retrieves an enemy's database ID (the type of enemy it is).
+            </p>
+
+            <p>
+            <i>Note: While it would be possible to create a set command for the enemy database ID,
+            using such a command would probably lead to undesirable behavior in <i>RPG Maker
+            2003</i>. If you would like to be able to transform enemies with a comment command, the
+            <a target="_blank" href="https://rpgmaker.net/engines/rt2k3/utilities/97/">DynBattlerChange plugin</a>
+            can provide you with that capability.</i>
+            </p>
+
+            <a name="get_enemy_current_hp" />
+            <h3>@dyndataaccess_get_enemy_current_hp &ltvariable number&gt, &ltenemy number&gt</h3>
+            <p>
+            Retrieves an enemy's current HP.
+            </p>
+
+            <a name="set_enemy_current_hp" />
+            <h3>@dyndataaccess_set_enemy_current_hp &ltdata value&gt, &ltenemy number&gt</h3>
+            <p>
+            Changes an enemy's current HP.
+            </p>
+
+            <a name="get_enemy_current_mp" />
+            <h3>@dyndataaccess_get_enemy_current_mp &ltvariable number&gt, &ltenemy number&gt</h3>
+            <p>
+            Retrieves an enemy's current MP.
+            </p>
+
+            <a name="set_enemy_current_mp" />
+            <h3>@dyndataaccess_set_enemy_current_mp &ltdata value&gt, &ltenemy number&gt</h3>
+            <p>
+            Changes an enemy's current MP.
+            </p>
+            
+            <p>
+            <i>Note: The rest of the data related to an enemy is actually stored in the database
+            of enemy types, not directly associated with an individual enemy. Thus, there are no set
+            commands for changing an individual enemy's Attack, Defense, etc.</i>
+            </p>
+
+            <a name="get_enemy_max_hp" />
+            <h3>@dyndataaccess_get_enemy_max_hp &ltvariable number&gt, &ltenemy number&gt</h3>
+            <p>
+            Retrieves an enemy's maximum HP.
+            </p>
+
+            <a name="get_enemy_max_mp" />
+            <h3>@dyndataaccess_get_enemy_max_mp &ltvariable number&gt, &ltenemy number&gt</h3>
+            <p>
+            Retrieves an enemy's maximum MP.
+            </p>
+
+            <a name="get_enemy_attack" />
+            <h3>@dyndataaccess_get_enemy_attack &ltvariable number&gt, &ltenemy number&gt</h3>
+            <p>
+            Retrieves an enemy's Attack.
+            </p>
+
+            <a name="get_enemy_defense" />
+            <h3>@dyndataaccess_get_enemy_defense &ltvariable number&gt, &ltenemy number&gt</h3>
+            <p>
+            Retrieves an enemy's Defense.
+            </p>
+
+            <a name="get_enemy_intelligence" />
+            <h3>@dyndataaccess_get_enemy_intelligence &ltvariable number&gt, &ltenemy number&gt</h3>
+            <p>
+            Retrieves an enemy's Intelligence.
+            </p>
+
+            <a name="get_enemy_agility" />
+            <h3>@dyndataaccess_get_enemy_agility &ltvariable number&gt, &ltenemy number&gt</h3>
+            <p>
+            Retrieves an enemy's Agility.
+            </p>
+
+            <a name="get_enemy_all_stats" />
+            <h3>@dyndataaccess_get_enemy_all_stats &ltfirst variable number&gt, &ltenemy number&gt</h3>
+            <p>
+            Retrieves all of an enemy's stats and stores them in a range of 9 variables. The stats
+            are stored in the following order:
+            <ol>
+                <li>Database ID</li>
+                <li>Current HP</li>
+                <li>Current MP</li>
+                <li>Maximum HP</li>
+                <li>Maximum MP</li>
+                <li>Attack</li>
+                <li>Defense</li>
+                <li>Intelligence</li>
+                <li>Agility</li>
+            </ol>
+            </p>
+        </section>
+            
+        <section><a name="how_to_contribute" />
+            <h2>How to Contribute</h2>
+            
+            <p>
+            As mentioned in the introduction, DynDataAccess is a living project. The size and
+            usefulness it grows to depends on the contributions of developers. If you find yourself
+            wanting access to data not already covered by the commands in DynDataAccess, please
+            consider adding the necessary commands yourself and sharing the results. Even if you
+            have no experience with making DynRPG plugins or even programming in C++, the code
+            patterns used to make DynDataAccess commands are simple and repetitive enough that you
+            may be able to copy and modify the existing commands. You could also do just part of the
+            process, like researching what data is available in DynRPG and modifying this readme
+            file to include the commands you'd like to see available, then submitting the results
+            with a request for somebody more code-savvy to do the actual programming. Some work done
+            is better than none. The subsections below will describe how to accomplish different
+            steps in the process of adding to DynDataAccess.
+            </p>
+            
+            <a name="check_existing" />
+            <h3>Check Existing DynDataAccess Commands</h3>
+            <p>
+            This might seem like a no-brainer, but the first thing you should do is make sure the
+            command you want doesn't already exist. Take a careful look through the
+            <a href="#comment_commands">comment commands</a> to determine whether there's one that
+            gives access to the data you want.
+            </p>
+            
+            <a name="research_data" />
+            <h3>Research Data Made Available in DynRPG</h3>
+            <p>
+            Before trying to actually make any changes, you should research whether the data you
+            want to access is something that DynRPG makes available and if so where it is held. You
+            can do this by looking at the
+            <a target="_blank" href="http://www.rewking.com/dynrpg/annotated.html">DynRPG class list</a>.
+            The length of the list and the cryptic names of some of the classes may be intimidating,
+            but don't let it deter you. Think about the data you want access to and try to find a
+            class that sounds like it's related to that. For example, if you wanted to access the
+            speed of the Airship map event, you should look at the Vehicle class.
+            </p>
+            <p>
+            Once you've pulled up the reference page for a class, take a look through its attributes
+            and functions for anything that looks like the data you want to access. Note that there
+            may be a line that says something along the lines of "Public attributes inherited from
+            X" or "Public member functions inherited from X". Click on these lines to display the
+            properties inherited from the parent class. For the example of the speed of the Airship
+            map event, the speed turns out to be a public attribute inherited from the Character
+            class.
+            </p>
+            <p>
+            Finally, you'll need to find out what variables are in the RPG namespace for the class.
+            Usually there is a listing of relevant variables in the "See also" section of the
+            class's page. If you can't find what you want there, though, try looking in the
+            <a target="_blank" href="http://www.rewking.com/dynrpg/namespace_r_p_g.html">RPG namespace page</a>.
+            For the example of the Airship map event, there is a special variable called
+            RPG::vehicleAirship, which gives access to the Vehicle object for the Airship. As long
+            as we're getting access to the Airship, though, why not be thorough and include the
+            other two Vehicles, represented by RPG::vehicleSkiff and RPG::vehicleShip? Note down the
+            variable(s) and attribute(s) and/or function(s) for the data you want to access.
+            </p>
+
+            <a name="update_readme" />
+            <h3>Update This Readme File With New Comment Commands</h3>
+            <p>
+            Once you've determined where the data you want to access is in DynRPG, you should plan
+            out what the commands for accessing the data should look like and update this
+            readme.html file to include them. Open readme.html in your favorite text editor (I
+            recommend Notepad++, but plain old Windows Notepad would work just fine) and find the
+            section about Comment Commands. Copy and paste some existing comment commands to give
+            yourself an easy template for creating your own comment commands. Unless you're adding
+            more commands to an existing group of commands, you should also copy a group header and
+            rename it for your commands. Just so we have a standard about the order commands are
+            listed in, try to position your group of commands relative to the other groups in the
+            same order that their associated classes are listed in the
+            <a target="_blank" href="http://www.rewking.com/dynrpg/namespace_r_p_g.html">RPG namespace page</a>.
+            For the example of accessing data about Vehicle events, you could name the group
+            "Vehicle data commands", and give it commands like "@dyndataaccess_get_airship_speed"
+            and "@dyndataaccess_set_airship_speed". Keep it simple and straightforward.
+            </p>
+            
+            <a name="update_plugin" />
+            <h3>Update the Plugin</h3>
+            <p>
+            Now comes the most intimidating part for new DynRPG developers: updating the plugin
+            itself to include the new comment commands. Don't worry, it's not super hard. If you
+            haven't worked on making DynRPG plugins before, you'll first need to install the
+            programming environment Code::Blocks and configure it to use the DynRPG source code. Go
+            to the
+            <a target="_blank" href="http://rewking.com/dynrpg/getting_started.html">Getting Started page</a>
+            of the DynRPG website, scroll down to the section marked "Hello World - Our first
+            plugin", and follow steps 1 through 6 of the directions there.
+            </p>
+            <p>
+            Once you have Code::Blocks installed, use it to open
+            DynPlugins/DynDataAccess/DynDataAccess.cbp in the DynDataAccess project. The part you
+            will need to add to is a function called onComment, which you can easily find using the
+            Search menu. Copy an existing section of code and use it as an example, replacing the
+            comment commands with your own, the "RPG::variableName->attributeName" instances with
+            the ones holding the data you want, and making any other needed modifications. As with
+            the listing of comment commands in this readme file, try to place your new code section
+            relative to the existing ones in the order of their associated classes as listed in the
+            <a target="_blank" href="http://www.rewking.com/dynrpg/namespace_r_p_g.html">RPG namespace page</a>.
+            </p>
+            <p>
+            Once you're done updating the code, open the Build menu and select the Build command.
+            This will compile the code into the actual plugin. If any error messages appear in the
+            console (the text area at the bottom of Code::Blocks by default), do your best to figure
+            out what went wrong and fix it. I wish I could tell you all the things which
+            <i>could</i> go wrong and how to deal with them, but that would be a book in itself.
+            Just carefully compare the code you made with the code that existed before, and pay
+            attention to any clues in the error messages. Once you think you've fixed something, do
+            a Build again, and keep trying until there are no error messages.
+            </p>
+            <p>
+            <i><b>Alternate Method: No Code::Blocks</b></i>
+            </p>
+            <p>
+            If downloading and installing Code::Blocks and setting up for DynRPG development on your
+            machine seems like too much of a hassle for you, you <i>can</i> simply open the file
+            DynPlugins/DynDataAccess/DynDataAccess.cpp using the text editor of your choice and
+            modify the DynDataAccess code that way. However, you won't be able to build your code
+            into the actual plugin this way, which means you won't be able to test it or use it in
+            your projects until somebody else does a build and makes it available. If you decide to
+            go this route, skip ahead to the <a href="#upload_changes">Upload Changes</a> step of
+            the process.
+            </p>
+            
+            <a name="test_plugin" />
+            <h3>Test the Plugin</h3>
+            <p>
+            Once you have added your new comment commands to the code and compiled a new version of
+            the plugin, you should test your new commands to make sure they work the way you expect
+            them to. To do this, open the DynDataAccess demo project in <i>RPG Maker 2003</i> and
+            create a new map event, then add some scripting to that event to test out your new
+            comment commands. Depending on the nature of the data you're working with, you may need
+            to do some additional work, like setting up an enemy troop with extra scripting and
+            using your map event to start an encounter with that troop, or placing more map events
+            for use in your test. I'm going to assume that as somebody who is taking it upon
+            yourself to improve the DynDataAccess plugin, you're familiar enough with <i>RPG Maker
+            2003</i> to figure out the details. Feel free to modify the map, add new maps, etc., but
+            please try to avoid messing up anybody's existing tests.
+            </p>
+            
+            <a name="upload_changes" />
+            <h3>Upload the Changes</h3>
+            <p>
+            Once you have determined that your comment commands work the way they're supposed to,
+            it's finally time to share them with the community. You can do this on the
+            <a target="_blank" href="https://github.com/AubreyTheBard/DynDataAccess">DynDataAccess GitHub page</a>.
+            If you don't have a GitHub account, you can sign up for free; you'll need to be logged
+            into GitHub to upload your changes. Follow these directions to upload a new version of
+            DynDataAccess:
+            <ol>
+                <li>Click the "Upload files" button</li>
+                <li>Drag "readme.html" (this file, presumably you've already updated and saved it)
+                and the entire DynDataAccess folder (the base folder of the entire project, not just
+                the one in the DynPlugins folder, and make sure you get the folder itself, not just
+                its contents) onto the space that says "Drag files here to add them to your
+                repository"</li>
+                <li>In the field that says "Add files via upload", type a brief description of
+                what's new in this version, for example "Vehicle data commands"</li>
+                <li>In the field that says "Optional extended description...", if you feel there
+                should be further details explaining what you're uploading, type it there</li>
+                <li>Select the radio button for "Create a new branch for this commit and start a pull request."</li>
+                <li>In the field that appears beneath, type a name for your version, for example
+                "AubreyTheBard-Vehicle-Data"</li>
+                <li>Click the "Propose changes" button</li>
+                <li>Wait until the "Processing your files" page is replaced by the "Open a pull request" page</li>
+                <li>Click the "Create pull request" button</li>
+            </ol>
+            </p>
+            <p>
+            With that, your part is done! I (Aubrey the Bard) will be notified of your contribution,
+            and I will review it, merge it into the GitHub repository, package up a new download,
+            and make it available on the
+            <a target="_blank" href="https://rpgmaker.net/engines/rmmv/utilities/193/">DynDataAccess utility thread</a>
+            for all to use.
+            </p>
+            
+        </section>
+
+        <section><a name="source_code" />
+            <h2>DynDataAccess Source Code</h2>
+            <p>
+            The source code for the DynDataAccess plugin is provided in the
+            DynPlugins/DynDataAccess folder of the DynDataAccess demo project. Feel free to
+            modify the plugin to suit your purposes, release alternate versions, use snippets of
+            code in other projects, etc. Some credit to Aubrey the Bard would be appreciated if you
+            use a significant portion of the source code, but I won't make a big deal out of it.
+            Instructions for creating DynRPG plugins can be found on the
+            <a target="_blank" href="http://rewking.com/dynrpg/getting_started.html">Getting Started page</a> of the
+            DynRPG website.
+            </p>
+        </section>
+
+        <section><a name="contact" />
+            <h2>Contact</h2>
+            <p>
+            I would be glad to hear about bug reports for this plugin, projects in which it is being
+            used, comments and criticisms, suggestions for future plugins, etc. Here are some ways to
+            contact me:
+            <ul>
+                <li>Join <a target="_blank" href="http://rpgmaker.net/">RPGMaker.net</a> and send a private mail to <b>AubreyTheBard</b></li>
+                <li>Post a comment in the <a target="_blank" href="https://rpgmaker.net/engines/rmmv/utilities/193/">DynDataAccess utility thread</a></li>
+                <li>Send an e-mail to <a href="mailto:Aubrey.the.Bard@gmail.com">Aubrey.the.Bard@gmail.com</a>
+            </p>
+        </section>
+
+        <section><a name="change_log" />
+            <h4>Change Log</h4>
+            <p>
+            v1.0 (02/10/2018):
+            <ul>
+                <li>First public release.</li>
+                <li>Added section for enemy data comment commands.</li>
+            </ul>
+            </p>
+        </section>
+
+        <footer>
+        </footer>
+
+    </body>
+
+</html>
