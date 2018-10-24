@@ -57,7 +57,8 @@
             <p>
             The DynDataAccess plugin allows access to data in <i>RPG Maker 2003</i> that is
             ordinarily hidden from developers. It contains commands for copying internal data into
-            <i>RPG Maker 2003</i> variables, and sometimes the other way around.
+            <i>RPG Maker 2003</i> variables, and sometimes the other way around. It has also picked
+            up a few extra commands, such as making an enemy flash or pop up text.
             </p>
             <p>
             DynDataAccess is a living project, intended to expand as needed. The task of creating
@@ -123,15 +124,165 @@
             would use the value of the game's 10th variable as the second argument of the command.
             </p>
             
-            <!-->
+            <!--
             ADD NEW COMMENT COMMAND SECTIONS BELOW. PLACE THEM IN RELATION TO OTHER COMMENT COMMAND
             SECTIONS IN THE ORDER OF THE RELATED DYNRPG CLASSES AND VARIABLES AS LISTED AT
             http://www.rewking.com/dynrpg/namespace_r_p_g.html
-            </!-->
+            -->
             
-            <!-->
-            This section related to class RPG::Monster
-            </!-->
+            <!-- This section related to class RPG::Actor -->
+			<a name="party_member_commands" />
+            <h2>Actor (AKA hero) data commands</h2>
+			
+            <p>
+            <i>Contributed by DJC</i>
+            </p>
+
+			<a name="get_party_member_id" />
+            <h3>@dyndataaccess_get_party_member_id &ltvariable number&gt, &ltparty member number (1-4)&gt</h3>
+            <p>
+            Sets desired game variable to database ID of actor in requested party member slot (1-4). If requested slot empty, variable is set to 0.
+            </p>
+			
+			<a name="get_party_member_all_ids" />
+            <h3>@dyndataaccess_get_party_member_all_ids &ltvariable number&gt</h3>
+            <p>
+            Sets four sequential game variables to database IDs of the actors in the party. If any party member slots are empty, the corresponding variable is set to 0.
+            </p>
+			
+			<a name="set_party_member_critical_rate" />
+            <h3>@dyndataaccess_set_party_member_critical_rate &ltnumber&gt, &ltparty member number (1-4)&gt</h3>
+            <p>
+            Set party member critical hit rate percentage (1 out of # chance; Example: 1 out of 2 = 50%). Volatile change, must be reapplied after every load.
+            </p>
+			
+			<a name="set_party_member_guard_type" />
+            <h3>@dyndataaccess_set_party_member_guard_type &ltnumber&gt, &ltparty member number (1-4)&gt</h3>
+            <p>
+            Set party member guard to regular (0) or mighty (1).
+            </p>
+			
+			<a name="get_party_member_database_attribute_resistance" />
+            <h3>@dyndataaccess_get_party_member_database_attribute_resistance &ltvariable number&gt, &ltparty member number (1-4)&gt, &ltattribute number&gt</h3>
+            <p>
+            Get database default party member attribute resistance level (0=A, 1=B, 2=C, 3=D, 4=E).
+            </p>
+			
+			<a name="set_party_member_database_attribute_resistance" />
+            <h3>@dyndataaccess_set_party_member_default_attribute_resistance &ltnumber&gt, &ltparty member number (1-4)&gt, &ltattribute number&gt</h3>
+            <p>
+            Set party member database default attribute resistance level (0=A, 1=B, 2=C, 3=D, 4=E). Volatile change, must be reapplied on load. RM2K3 allows only one increase/decrease from this level of resistance. If set to E resistance, cannot increase back to this level with skills.
+            </p>
+			
+			<a name="get_party_member_current_attribute_resistance" />
+            <h3>@dyndataaccess_get_party_member_current_attribute_resistance &ltvariable number&gt, &ltparty member number (1-4)&gt, &ltattribute number&gt</h3>
+            <p>
+            Get current attribute resistance of a party member. Base resistance is default adjusted by any equipment boosts. 0=one resist level down from base; 1=base; 2=one level up from base; 3=two levels up; etc... Values beyond A-E scope indicate miss/immune. Negative values indicate miss/immune.
+            </p>
+			
+			<a name="set_party_member_current_attribute_resistance" />
+            <h3>@dyndataaccess_set_party_member_current_attribute_resistance &ltvariable number&gt, &ltparty member number (1-4)&gt, &ltattribute number&gt</h3>
+            <p>
+            Set party member current attribute resistance. Base resistance is default adjusted by any equipment boosts. 0=one resist level down from base; 1=base; 2=one level up from base; 3=two levels up; etc... Change beyond A-E scope results in miss/immune. Negative values result in miss/immune and no response to skill based attribute changes. Skill based attribute changes cannot exceed A-E scope, even if initially set beyond.
+            </p>
+			
+			<a name="get_party_member_condition_turns" />
+            <h3>@dyndataaccess_get_party_member_condition_turns &ltvariable number&gt, &ltparty member number (1-4)&gt, &ltcondition number&gt</h3>
+            <p>
+            Get the number of turns a party member has been afflicted with the requested condition. 0=not currently afflicted with requested condition.
+            </p>
+			
+			<a name="get_party_member_condition_turns_total" />
+            <h3>@dyndataaccess_get_party_member_condition_turns_total &ltvariable number&gt, &ltparty member number (1-4)&gt, &ltpriority number&gt</h3>
+            <p>
+            Get the number of turns a party member has been afflicted with all conditions. Ignores any conditions with a priority lower than requested. Returned value of 0 = not currently afflicted with any condition.
+            </p>
+			
+			<a name="get_party_member_condition_total" />
+            <h3>@dyndataaccess_get_party_member_condition_total &ltvariable number&gt, &ltparty member number (1-4)&gt, &ltpriority number&gt</h3>
+            <p>
+            Get the number of conditions a party member is currently suffering. Ignores any conditions with a priority lower than requested. Returned value of 0 = not currently afflicted with any condition.
+            </p>
+			
+			<a name="get_party_member_database_condition_resistance" />
+            <h3>@dyndataaccess_get_party_member_database_condition_resistance &ltvariable number&gt, &ltparty member number (1-4)&gt, &ltcondition number&gt</h3>
+            <p>
+            Get database default party member condition resistance level (0=A, 1=B, 2=C, 3=D, 4=E).
+            </p>
+			
+			<a name="set_party_member_database_condition_resistance" />
+            <h3>@dyndataaccess_set_party_member_database_condition_resistance &ltnumber&gt, &ltparty member number (1-4)&gt, &ltcondition number&gt</h3>
+            <p>
+            Set party member database default condition resistance level (0=A, 1=B, 2=C, 3=D, 4=E). Volatile change, must be reapplied on load. Equipment condition resistances still override like normal.
+            </p>
+			
+			<a name="set_party_member_combo" />
+            <h3>@dyndataaccess_set_party_member_combo &ltcommand number&gt, &ltparty member number (1-4)&gt, &ltrepetition number&gt</h3>
+            <p>
+            Set party member combo command and repetitions. Only one command can be setup for a combo per party member. Some commands cannot be set to combo (Item, Defend, etc...) Possible to exceed Rm2K3 combo limit of 8, but excessive combos may cause issues with turn overlap.
+            </p>
+			
+			<a name="get_party_member_animation2" />
+            <h3>@dyndataaccess_get_party_member_animation2 &ltvariable number&gt, &ltparty member number (1-4)&gt</h3>
+            <p>
+            Get party member battler sprite (Animations2 ID).
+            </p>
+			
+			<a name="set_party_member_animation2" />
+            <h3>@dyndataaccess_set_party_member_animation2 &ltanimation2 number&gt, &ltparty member number (1-4)&gt</h3>
+            <p>
+            Set party member battler sprite (Animation2 ID). Only works outside of battle.
+            </p>
+			
+			<a name="get_party_member_defeated_count" />
+            <h3>@dyndataaccess_get_party_member_defeated_count &ltvariable number&gt</h3>
+            <p>
+            Gets the number of fallen party members in the party.
+            </p>
+			
+            <!-- This section related to class RPG::BattleData -->
+			<a name="battle_data" />
+            <h2>Battle Data</h2>
+			
+            <p>
+            <i>Contributed by DJC</i>
+            </p>
+
+			<a name="set_battle_bg" />
+            <h3>@dyndataaccess_set_battle_bg &ltfilename&gt</h3>
+            <p>
+            Set battle background, directory included with filename relative to main game folder.
+            </p>
+			
+            <!-- This section related to class RPG::DBMonsterGroup -->
+            <a name="database_troop_commands" />
+            <h2>Database Troop (AKA monster group) data commands</h2>
+			
+            <p>
+            <i>Contributed by DJC</i>
+            </p>
+
+			<a name="get_troop_initial_size" />
+            <h3>@dyndataaccess_get_troop_initial_size &ltvariable number&gt</h3>
+            <p>
+            Get the initial enemy troop size as defined in the database.
+            </p>
+
+            <!-- This section related to class RPG::Item -->
+			<a name="item_data" />
+            <h2>Item Data</h2>
+			
+            <p>
+            <i>Contributed by DJC</i>
+            </p>
+
+			<a name="get_item_attribute" />
+            <h3>@dyndataaccess_get_item_attribute &ltvariable number&gt, &ltitem number&gt, &ltattribute number&gt</h3>
+            <p>
+            Get whether an item has requested attribute tagged. (0=false, 1=true)
+            </p>
+			
+            <!-- This section related to class RPG::Monster -->
             <a name="enemy_commands" />
             <h2>Enemy (AKA monster) data commands</h2>
 
@@ -178,9 +329,8 @@
             </p>
             
             <p>
-            <i>Note: The rest of the data related to an enemy is actually stored in the database
-            of enemy types, not directly associated with an individual enemy. Thus, there are no set
-            commands for changing an individual enemy's Attack, Defense, etc.</i>
+            <i>Note: See DJC's contribution further down for set commands for changing an individual
+            enemy's Attack, Defense, etc.</i>
             </p>
 
             <a name="get_enemy_max_hp" />
@@ -235,6 +385,180 @@
                 <li>Intelligence</li>
                 <li>Agility</li>
             </ol>
+            </p>
+			
+			<p>
+            <i>Contributed by DJC</i>
+            </p>
+			
+			<a name="get_enemy_database_stats" />
+            <h3>@dyndataaccess_get_enemy_database_stats &ltvariable number&gt, &ltenemy number (1-8)&gt</h3>
+            <p>
+            Gets the unaltered database attack, defense, intelligence, and agility of requested monster. Stored in four sequential variables.
+            </p>
+			
+			<a name="set_enemy_attack" />
+            <h3>@dyndataaccess_set_enemy_attack &ltnumber&gt, &ltenemy number (1-8)&gt</h3>
+            <p>
+            Change the enemy's current attack relative to the database default.
+            </p>
+			
+			<a name="set_enemy_defense" />
+            <h3>@dyndataaccess_set_enemy_defense &ltnumber&gt, &ltenemy number (1-8)&gt</h3>
+            <p>
+            Change the enemy's current defense relative to the database default.
+            </p>
+			
+			<a name="set_enemy_intelligence" />
+            <h3>@dyndataaccess_set_enemy_intelligence &ltnumber&gt, &ltenemy number (1-8)&gt</h3>
+            <p>
+            Change the enemy's current intelligence relative to the database default.
+            </p>
+			
+			<a name="set_enemy_agility" />
+            <h3>@dyndataaccess_set_enemy_agility &ltnumber&gt, &ltenemy number (1-8)&gt</h3>
+            <p>
+            Change the enemy's current agility relative to the database default.
+            </p>
+			
+			<a name="get_enemy_attribute_resistance" />
+            <h3>@dyndataaccess_get_enemy_attribute_resistance &ltvariable number&gt, &ltenemy number (1-8)&gt, &ltattribute number&gt</h3>
+            <p>
+            Get database default enemy attribute resistance percentage.
+            </p>
+			
+			<a name="get_enemy_condition_resistance" />
+            <h3>@dyndataaccess_get_enemy_condition_resistance &ltvariable number&gt, &ltenemy number (1-8)&gt, &ltcondition number&gt</h3>
+            <p>
+            Get database default enemy condition resistance percentage.
+            </p>
+			
+			<a name="force_enemy_condition" />
+            <h3>@dyndataaccess_force_enemy_condition &ltenemy number (1-8)&gt, &ltcondition number&gt, &ltfailure threshold (0-4 for A-E, 5 for certain hit)&gt</h3>
+            <p>
+            Force an enemy to suffer a condition if enemy's condition resistance is less than or
+            equal to specified level. Does not function correctly for condition 0 (KO); inflicts
+            condition, but enemy does not KO; requires additional scripting.
+            </p>
+			
+			<a name="get_enemy_atb" />
+            <h3>@dyndataaccess_get_enemy_atb &ltvariable number&gt, &ltenemy number (1-8)&gt</h3>
+            <p>
+            Get the current ATB for an enemy (30000 full).
+            </p>
+			
+			<a name="set_enemy_atb" />
+            <h3>@dyndataaccess_set_enemy_atb &ltnumber&gt, &ltenemy number (1-8)&gt</h3>
+            <p>
+            Set the current ATB for an enemy (300000 full, needs extra power of ten).
+            </p>
+			
+			<a name="enemy_text_popup" />
+            <h3>@dyndataaccess_enemy_text_popup &lttext&gt, &ltenemy number (1-8)&gt</h3>
+            <p>
+            Display pop-up text for an enemy.
+            </p>
+			
+			<a name="enemy_number_popup" />
+            <h3>@dyndataaccess_enemy_number_popup &ltnumber&gt, &ltenemy number (1-8)&gt</h3>
+            <p>
+            Display pop-up number for an enemy
+            </p>
+			
+			<a name="enemy_flash" />
+            <h3>@dyndataaccess_enemy_flash &ltenemy number (1-8)&gt, &ltred number&gt, &ltgreen number&gt, &ltblue number&gt, &ltintensity number&gt, &ltframe number&gt</h3>
+            <p>
+            Flash target enemy a specific RGB intensity for a number of frames.
+            </p>
+			
+			<a name="set_enemy_sprite" />
+            <h3>@dyndataaccess_set_enemy_sprite &ltfilename&gt, &ltenemy number (1-8)&gt</h3>
+            <p>
+            Set the enemy graphic. Filename should include directory relative to main game folder.
+            </p>
+			
+			<a name="get_enemy_defeated_count" />
+            <h3>@dyndataaccess_get_enemy_defeated_count &ltvariable number&gt</h3>
+            <p>
+            Gets the number of defeated foes in the current battle.
+            </p>
+			
+			<a name="get_enemy_undefeated_count" />
+            <h3>@dyndataaccess_get_enemy_undefeated_count &ltvariable number&gt</h3>
+            <p>
+            Gets the number of undefeated foes in the current battle.
+            </p>
+			
+            <!-- This section related to class RPG::Map -->
+			<a name="map_data" />
+            <h2>Map Data</h2>
+			
+            <p>
+            <i>Contributed by DJC</i>
+            </p>
+
+			<a name="get_encounter_rate_current" />
+            <h3>@dyndataaccess_get_encounter_rate_current &ltvariable number&gt</h3>
+            <p>
+            Get current map encounter rate.
+            </p>
+			
+			<a name="set_encounter_rate_current" />
+            <h3>@dyndataaccess_set_encounter_rate_current &ltnumber&gt</h3>
+            <p>
+            Set current map encounter rate.
+            </p>
+			
+			<a name="get_database_encounter_rate" />
+            <h3>@dyndataaccess_get_database_encounter_rate &ltvariable number&gt</h3>
+            <p>
+            Get database default map encounter rate.
+            </p>
+			
+            <!-- This section related to class RPG::Skill -->
+			<a name="skill_data" />
+            <h2>Skill Data</h2>
+			
+            <p>
+            <i>Contributed by DJC</i>
+            </p>
+
+			<a name="get_skill_cost" />
+            <h3>@dyndataaccess_get_skill_cost &ltvariable number&gt, &ltskill number&gt</h3>
+            <p>
+            Get the cost of a skill.
+            </p>
+			
+			<a name="set_skill_cost" />
+            <h3>@dyndataaccess_set_skill_cost &ltnumber&gt, &ltskill number&gt</h3>
+            <p>
+            Set skill cost. This will overwrite database values, but volatile, resets on reload.
+            </p>
+			
+			<a name="set_skill_attack_influence" />
+            <h3>@dyndataaccess_set_skill_attack_influence &ltnumber&gt, &ltskill number&gt</h3>
+            <p>
+            Sets a skill's attack influence (0-10 valid). This will overwrite database values, but volatile, resets on reload.
+            </p>
+			
+			<a name="set_skill_effect_rating" />
+            <h3>@dyndataaccess_set_skill_effect_rating &ltnumber&gt, &ltskill number&gt</h3>
+            <p>
+            Sets a skill's effect rating (damage or healing). This will overwrite database values, but volatile, resets on reload.
+            </p>
+			
+            <!-- This section related to class RPG::Terrain -->
+			<a name="terrain_data" />
+            <h2>Terrain Data</h2>
+			
+            <p>
+            <i>Contributed by DJC</i>
+            </p>
+
+			<a name="set_terrain_initiative_rate" />
+            <h3>@dyndataaccess_set_terrain_initiative_rate &ltnumber&gt, &ltterrain number&gt</h3>
+            <p>
+            Set terrain's initiative encounter rate (as a percentage, 0-100).
             </p>
         </section>
             
@@ -386,11 +710,13 @@
             Once you have determined that your comment commands work the way they're supposed to,
             it's finally time to share them with the community. You can do this on the
             <a target="_blank" href="https://github.com/AubreyTheBard/DynDataAccess">DynDataAccess GitHub page</a>.
-            If you don't have a GitHub account, you can sign up for free; you'll need to be logged
+            If you don't have a GitHub account, you can sign up for free. Once you have an account, you'll need to be logged
             into GitHub to upload your changes. Follow these directions to upload a new version of
             DynDataAccess:
             <ol>
-                <li>Click the "Upload files" button</li>
+                <li>On the <a target="_blank" href="https://github.com/AubreyTheBard/DynDataAccess">DynDataAccess GitHub page</a>,
+                click the "Fork" button</li>
+                <li>After the forking process is complete, click the "Upload files" button</li>
                 <li>Drag "readme.html" (this file, presumably you've already updated and saved it)
                 and the entire DynDataAccess folder (the base folder of the entire project, not just
                 the one in the DynPlugins folder, and make sure you get the folder itself, not just
@@ -412,7 +738,7 @@
             With that, your part is done! I (Aubrey the Bard) will be notified of your contribution,
             and I will review it, merge it into the GitHub repository, package up a new download,
             and make it available on the
-            <a target="_blank" href="https://rpgmaker.net/engines/rmmv/utilities/193/">DynDataAccess utility thread</a>
+            <a target="_blank" href="https://rpgmaker.net/engines/rt2k3/utilities/194/">DynDataAccess utility thread</a>
             for all to use.
             </p>
             
@@ -440,7 +766,7 @@
             contact me:
             <ul>
                 <li>Join <a target="_blank" href="http://rpgmaker.net/">RPGMaker.net</a> and send a private mail to <b>AubreyTheBard</b></li>
-                <li>Post a comment in the <a target="_blank" href="https://rpgmaker.net/engines/rmmv/utilities/193/">DynDataAccess utility thread</a></li>
+                <li>Post a comment in the <a target="_blank" href="https://rpgmaker.net/engines/rt2k3/utilities/194/">DynDataAccess utility thread</a></li>
                 <li>Send an e-mail to <a href="mailto:Aubrey.the.Bard@gmail.com">Aubrey.the.Bard@gmail.com</a>
             </p>
         </section>
@@ -448,10 +774,102 @@
         <section><a name="change_log" />
             <h4>Change Log</h4>
             <p>
+            v1.1 (10/23/2018):
+            <ul>
+                <li>Added contribution by DJC containing these comment commands:</li>
+                <ul>
+                    <li>Actor (AKA hero) data commands</li>
+                    <ul>
+                        <li>@dyndataaccess_get_party_member_id &ltvariable number&gt, &ltparty member number (1-4)&gt</li>
+                        <li>@dyndataaccess_get_party_member_all_ids &ltvariable number&gt</li>
+                        <li>@dyndataaccess_set_party_member_critical_rate &ltnumber&gt, &ltparty member number (1-4)&gt</li>
+                        <li>@dyndataaccess_set_party_member_guard_type &ltnumber&gt, &ltparty member number (1-4)&gt</li>
+                        <li>@dyndataaccess_get_party_member_database_attribute_resistance &ltvariable number&gt, &ltparty member number (1-4)&gt, &ltattribute number&gt</li>
+                        <li>@dyndataaccess_set_party_member_database_attribute_resistance &ltnumber&gt, &ltparty member number (1-4)&gt, &ltattribute number&gt</li>
+                        <li>@dyndataaccess_get_party_member_current_attribute_resistance &ltvariable number&gt, &ltparty member number (1-4)&gt, &ltattribute number&gt</li>
+                        <li>@dyndataaccess_set_party_member_current_attribute_resistance &ltvariable number&gt, &ltparty member number (1-4)&gt, &ltattribute number&gt</li>
+                        <li>@dyndataaccess_get_party_member_condition_turns &ltvariable number&gt, &ltparty member number (1-4)&gt, &ltcondition number&gt</li>
+                        <li>@dyndataaccess_get_party_member_condition_turns_total &ltvariable number&gt, &ltparty member number (1-4)&gt, &ltpriority number&gt</li>
+                        <li>@dyndataaccess_get_party_member_condition_total &ltvariable number&gt, &ltparty member number (1-4)&gt, &ltpriority number&gt</li>
+                        <li>@dyndataaccess_get_party_member_database_condition_resistance &ltvariable number&gt, &ltparty member number (1-4)&gt, &ltcondition number&gt</li>
+                        <li>@dyndataaccess_set_party_member_database_condition_resistance &ltnumber&gt, &ltparty member number (1-4)&gt, &ltcondition number&gt</li>
+                        <li>@dyndataaccess_set_party_member_combo &ltcommand number&gt, &ltparty member number (1-4)&gt, &ltrepetition number&gt</li>
+                        <li>@dyndataaccess_get_party_member_animation2 &ltvariable number&gt, &ltparty member number (1-4)&gt</li>
+                        <li>@dyndataaccess_set_party_member_animation2 &ltanimation2 number&gt, &ltparty member number (1-4)&gt</li>
+                        <li>@dyndataaccess_get_party_member_defeated_count &ltvariable number&gt</li>
+                    </ul>
+                    <li>Battle data commands</li>
+                    <ul>
+                        <li>@dyndataaccess_set_battle_bg &ltfilename&gt</li>
+                    </ul>
+                    <li>Database Troop (AKA monster group) data commands</li>
+                    <ul>
+                        <li>@dyndataaccess_get_troop_initial_size &ltvariable number&gt</li>
+                    </ul>
+                    <li>Item data commands</li>
+                    <ul>
+                        <li>@dyndataaccess_get_item_attribute &ltvariable number&gt, &ltitem number&gt, &ltattribute number&gt</li>
+                    </ul>
+                    <li>Enemy (AKA monster) data commands</li>
+                    <ul>
+                        <li>@dyndataaccess_get_enemy_database_stats &ltvariable number&gt, &ltenemy number (1-8)&gt</li>
+                        <li>@dyndataaccess_set_enemy_attack &ltnumber&gt, &ltenemy number (1-8)&gt</li>
+                        <li>@dyndataaccess_set_enemy_defense &ltnumber&gt, &ltenemy number (1-8)&gt</li>
+                        <li>@dyndataaccess_set_enemy_intelligence &ltnumber&gt, &ltenemy number (1-8)&gt</li>
+                        <li>@dyndataaccess_set_enemy_agility &ltnumber&gt, &ltenemy number (1-8)&gt</li>
+                        <li>@dyndataaccess_get_enemy_attribute_resistance &ltvariable number&gt, &ltenemy number (1-8)&gt, &ltattribute number&gt</li>
+                        <li>@dyndataaccess_get_enemy_condition_resistance &ltvariable number&gt, &ltenemy number (1-8)&gt, &ltcondition number&gt</li>
+                        <li>@dyndataaccess_get_enemy_atb &ltvariable number&gt, &ltenemy number (1-8)&gt</li>
+                        <li>@dyndataaccess_set_enemy_atb &ltnumber&gt, &ltenemy number (1-8)&gt</li>
+                        <li>@dyndataaccess_enemy_text_popup &lttext&gt, &ltenemy number (1-8)&gt</li>
+                        <li>@dyndataaccess_enemy_number_popup &ltnumber&gt, &ltenemy number (1-8)&gt</li>
+                        <li>@dyndataaccess_enemy_flash &ltenemy number (1-8)&gt, &ltred number&gt, &ltgreen number&gt, &ltblue number&gt, &ltintensity number&gt, &ltframe number&gt</li>
+                        <li>@dyndataaccess_set_enemy_sprite &ltfilename&gt, &ltenemy number (1-8)&gt</li>
+                        <li>@dyndataaccess_get_enemy_defeated_count &ltvariable number&gt</li>
+                        <li>@dyndataaccess_get_enemy_undefeated_count &ltvariable number&gt</li>
+                    </ul>
+                    <li>Map data commands</li>
+                    <ul>
+                        <li>@dyndataaccess_get_encounter_rate_current &ltvariable number&gt</li>
+                        <li>@dyndataaccess_set_encounter_rate_current &ltnumber&gt</li>
+                        <li>@dyndataaccess_get_database_encounter_rate &ltvariable number&gt</li>
+                    </ul>
+                    <li>Skill data commands</li>
+                    <ul>
+                        <li>@dyndataaccess_get_skill_cost &ltvariable number&gt, &ltskill number&gt</li>
+                        <li>@dyndataaccess_set_skill_cost &ltnumber&gt, &ltskill number&gt</li>
+                        <li>@dyndataaccess_set_skill_attack_influence &ltnumber&gt, &ltskill number&gt</li>
+                        <li>@dyndataaccess_set_skill_effect_rating &ltnumber&gt, &ltskill number&gt</li>
+                    </ul>
+                    <li>Terrain data commands</li>
+                    <ul>
+                        <li>@dyndataaccess_set_terrain_initiative_rate &ltnumber&gt, &ltterrain number&gt</li>
+                    </ul>
+                </ul>
+            </ul>
+            </p>
+            <p>
             v1.0 (02/10/2018):
             <ul>
                 <li>First public release.</li>
-                <li>Added section for enemy data comment commands.</li>
+                <li>Added contribution by Aubrey the Bard containing these comment commands:</li>
+                <ul>
+                    <li>Enemy (AKA monster) data commands</li>
+                    <ul>
+                        <li>@dyndataaccess_get_enemy_database_id &ltvariable number&gt, &ltenemy number&gt</li>
+                        <li>@dyndataaccess_get_enemy_current_hp &ltvariable number&gt, &ltenemy number&gt</li>
+                        <li>@dyndataaccess_set_enemy_current_hp &ltdata value&gt, &ltenemy number&gt</li>
+                        <li>@dyndataaccess_get_enemy_current_mp &ltvariable number&gt, &ltenemy number&gt</li>
+                        <li>@dyndataaccess_set_enemy_current_mp &ltdata value&gt, &ltenemy number&gt</li>
+                        <li>@dyndataaccess_get_enemy_max_hp &ltvariable number&gt, &ltenemy number&gt</li>
+                        <li>@dyndataaccess_get_enemy_max_mp &ltvariable number&gt, &ltenemy number&gt</li>
+                        <li>@dyndataaccess_get_enemy_attack &ltvariable number&gt, &ltenemy number&gt</li>
+                        <li>@dyndataaccess_get_enemy_defense &ltvariable number&gt, &ltenemy number&gt</li>
+                        <li>@dyndataaccess_get_enemy_intelligence &ltvariable number&gt, &ltenemy number&gt</li>
+                        <li>@dyndataaccess_get_enemy_agility &ltvariable number&gt, &ltenemy number&gt</li>
+                        <li>@dyndataaccess_get_enemy_all_stats &ltfirst variable number&gt, &ltenemy number&gt</li>
+                    </ul>
+                </ul>
             </ul>
             </p>
         </section>
