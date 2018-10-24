@@ -1,0 +1,3 @@
+EXPORTS
+    linkVersion @1 DATA
+    onComment @2

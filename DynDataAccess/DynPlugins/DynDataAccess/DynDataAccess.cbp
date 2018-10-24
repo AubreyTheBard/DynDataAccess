@@ -30,9 +30,6 @@
 		<Linker>
 			<Add library="DynRPG" />
 		</Linker>
-		<ExtraCommands>
-			<Add after="cmd /c del ..\*.a &amp; del ..\*.def" />
-		</ExtraCommands>
 		<Unit filename="DynDataAccess.cpp" />
 		<Extensions>
 			<code_completion />
