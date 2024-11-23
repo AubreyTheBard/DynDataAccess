@@ -32,6 +32,7 @@
             <nav>
                 <ul>
                     <li><a href="#intro">Introduction</a></li>
+                    <li><a href="#settings_note">A Note About the Demo Project's Graphics Settings</a></li>
                     <li><a href="#setup">Installation and Setup</a></li>
                     <li><a href="#config">Configuration Options</a></li>
                     <li><a href="#comment_commands">Comment Commands</a></li>
@@ -82,6 +83,13 @@
             2003</i> at
             <a target="_blank" href="https://www.rpgmakerweb.com/products/programs/rpg-maker-2003">RPG Maker Web</a>
             or on <a target="_blank" href="http://store.steampowered.com/app/362870/">Steam</a>.
+            </p>
+        </section>
+
+        <section><a name="settings_note" />
+            <h2>A Note About the Demo Project's Graphics Settings</h2>
+            <p>
+            The demo project for DynDataAccess includes PepsiOtaku's game_settings_afm.exe plugin and the files it uses. I included this because DynDataAccess and similar <i>RPG Maker 2003</i> projects will not run on my current PC (which uses <i>Windows 11</i>) unless the graphics are running on OpenGL, which the plugin causes it to do. However, if you are using an older PC, this may cause you problems. If you'd like to try running the demo project with DirectDraw instead of OpenGL, open the file "Settings.ini" in the base folder of the project, and edit the line "UseDirectDraw=0" to say "UseDirectDraw=1" instead.
             </p>
         </section>
 
@@ -433,6 +441,20 @@
             Get database default enemy condition resistance percentage.
             </p>
 			
+			<p>
+            <i>Contributed by xshobux</i>
+            </p>
+
+			<a name="get_enemy_condition_turns" />
+            <h3>@dyndataaccess_get_enemy_condition_turns &ltvariable number&gt, &ltenemy number (1-8)&gt, &ltcondition number&gt</h3>
+            <p>
+            Get the number of turns an enemy has been afflicted with the requested condition. 0=not currently afflicted with requested condition.
+            </p>
+			
+			<p>
+            <i>Contributed by DJC</i>
+            </p>
+
 			<a name="force_enemy_condition" />
             <h3>@dyndataaccess_force_enemy_condition &ltenemy number (1-8)&gt, &ltcondition number&gt, &ltfailure threshold (0-4 for A-E, 5 for certain hit)&gt</h3>
             <p>
@@ -773,6 +795,19 @@
 
         <section><a name="change_log" />
             <h4>Change Log</h4>
+            <p>
+            v1.2 (11/23/2024):
+            <ul>
+                <li>Added contribution by xshobux containing these comment commands:</li>
+                <ul>
+                    <li>Enemy (AKA monster) data commands</li>
+                    <ul>
+                        <li>@dyndataaccess_get_enemy_condition_turns &ltvariable number&gt, &ltenemy number (1-8)&gt, &ltcondition number&gt</li>
+                    </ul>
+                </ul>
+                <li>Added PepsiOtaku's game_settings_afm plugin to the demo project, simply because I can't get the project to run in Windows 11 without it to force using OpenGL instead of DirectDraw</li>
+            </ul>
+            </p>
             <p>
             v1.1 (10/23/2018):
             <ul>

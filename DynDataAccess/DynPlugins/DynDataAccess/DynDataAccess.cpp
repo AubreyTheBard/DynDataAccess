@@ -760,6 +760,21 @@ bool onComment( const char* text,
                 RPG::variables[variableIndex]++; }
         return false;
     }
+
+    //Contributed by xshobux
+    if( 0 == cmd.compare( "dyndataaccess_get_enemy_condition_turns" ) )
+    {   // Get the number of turns an enemy has been afflicted with the requested condition
+        // 0=not currently afflicted with requested condition
+        // Parameter 0: The index of the RM2K3 variable to store data in
+        variableIndex = (int) parsedData->parameters[0].number;
+        // Parameter 1: The party index of the enemy
+        partyIndex = (int) parsedData->parameters[1].number - 1;
+        // Parameter 2: The condition database id
+        conditionIndex = (int) parsedData->parameters[2].number;
+        // Store the data in the appropriate RM2K3 variable
+        RPG::variables[variableIndex] = RPG::monsters[partyIndex]->conditions[conditionIndex];
+        return false;
+    }
     // END OF ENEMY DATA SECTION
 
     // MAP DATA SECTION
